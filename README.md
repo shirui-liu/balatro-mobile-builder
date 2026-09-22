@@ -35,6 +35,7 @@ Please review the **Notes** section before you begin.
 ## Optional Patches
  - **FPS Cap** — Caps FPS to the device's native refresh rate (Recommended for performance)
  - **Landscape Orientation** — Locks the game to landscape orientation (Recommended, since portrait orientation does not behave very well)
+ - **Fullscreen** — Requests LÖVE to use the complete display area. Select this together with Landscape when the device shows black bars.
  - **High DPI** — Enables [High DPI graphics mode](https://love2d.org/wiki/love.window.setMode) (Recommended, fixes some graphical bugs)
  - **CRT Shader Disable** — Disables the CRT Shader (Recommended for Pixel and some other devices)
 
@@ -65,6 +66,8 @@ Useful informations for developers and advanced users
  - This script will automatically download [APK Tool](https://apktool.org/)
  - This script will automatically download [uber-apk-signer](https://github.com/patrickfav/uber-apk-signer/)
  - This script will automatically download [love-11.5-android-embed.apk](https://github.com/love2d/love-android/)
+ - For Android 15/16 KB page-size compatible builds, place a rebuilt `love-android-embed.apk` next to the builder executable. The builder uses this local file before downloading the legacy embedded APK.
+ - The replacement embed APK must contain 16 KB ELF-aligned arm64 libraries. Rebuild LÖVE and its native dependencies with Android NDK r28 or newer (or use the dependency vendor's 16 KB-compatible binaries), and verify every native library with `llvm-readelf -l`. APK `zipalign` alone cannot fix ELF `LOAD` segment alignment.
  - This script can automatically download [Android Developer Bridge](https://developer.android.com/tools/adb) (optional)
  ### For iOS:
  - This script will automatically download [Balatro-IPA-Base](https://github.com/PGgamer2/balatro-mobile-builder/blob/main/resources/base.ipa)

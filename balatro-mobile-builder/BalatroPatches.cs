@@ -45,6 +45,8 @@ namespace BalatroMobileBuilder
                 { "fpscap", "main.lua" } }),
             new BalatroPatch("landscape", "Landscape", new Dictionary<string, string> {
                 { "landscape", "functions/button_callbacks.lua" } }),
+            new BalatroPatch("fullscreen", "Fullscreen", new Dictionary<string, string> {
+                { "fullscreen", "functions/button_callbacks.lua" } }),
             new BalatroPatch("highdpi", "High DPI", new Dictionary<string, string> {
                 { "highdpi_conf", "conf.lua" },
                 { "highdpi_button_callbacks", "functions/button_callbacks.lua" } }),

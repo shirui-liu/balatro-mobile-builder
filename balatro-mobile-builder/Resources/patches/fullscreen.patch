@@ -1,0 +1,5 @@
+--- original/functions/button_callbacks.lua
++++ modded/functions/button_callbacks.lua
+@@ -1182,1 +1182,2 @@
+     display = G.SETTINGS.WINDOW.selected_display,
++    fullscreen = true,

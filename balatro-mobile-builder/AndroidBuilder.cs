@@ -140,7 +140,7 @@ namespace BalatroMobileBuilder
             android:icon=""@drawable/love""
             android:label=""Balatro""
             android:usesCleartextTraffic=""true""
-            android:debuggable=""true"" >
+            android:debuggable=""false"" >
         <activity
                 android:name=""org.love2d.android.GameActivity""
                 android:exported=""true""

@@ -20,6 +20,11 @@ Mods are not _officially_ supported, but could work if the base Balatro.exe is a
 Please report any bugs you encouter in the [issues section](https://github.com/PGgamer2/balatro-mobile-builder/issues).
 If you encounter bugs with the latest release, try the previous release.
 
+## Changes from Upstream
+ - Android manifest targets SDK 35 for Android 15/16 edge-to-edge full-screen compatibility, preventing gray borders around the game.
+ - Documents the 16 KB ELF page-size requirement for Android native libraries and compatible LÖVE embed APKs.
+ - Keeps the original Android build flow while using the local 16 KB-compatible embed APK when provided.
+
 ## Quick Start Guide
 Please review the **Notes** section before you begin.
  - Download or compile [**balatro-mobile-builder**](https://github.com/PGgamer2/balatro-mobile-builder/releases/latest).
@@ -68,6 +73,8 @@ Useful informations for developers and advanced users
  - This script will automatically download [love-11.5-android-embed.apk](https://github.com/love2d/love-android/)
  - For Android 15/16 KB page-size compatible builds, place a rebuilt `love-android-embed.apk` next to the builder executable. The builder uses this local file before downloading the legacy embedded APK.
  - The replacement embed APK must contain 16 KB ELF-aligned arm64 libraries. Rebuild LÖVE and its native dependencies with Android NDK r28 or newer (or use the dependency vendor's 16 KB-compatible binaries), and verify every native library with `llvm-readelf -l`. APK `zipalign` alone cannot fix ELF `LOAD` segment alignment.
+ - If Android reports a 4 KB/16 KB page-size compatibility error, use the rebuilt 16 KB-compatible embed APK described above. The error is caused by native ELF library alignment and cannot be fixed by APK signing or `zipalign` alone.
+ - For Android 15/16 full-screen devices, the generated Android manifest targets SDK 35 so the game content extends behind the status and gesture navigation bars. This avoids gray borders caused by the system reserving the top and bottom areas.
  - This script can automatically download [Android Developer Bridge](https://developer.android.com/tools/adb) (optional)
  ### For iOS:
  - This script will automatically download [Balatro-IPA-Base](https://github.com/PGgamer2/balatro-mobile-builder/blob/main/resources/base.ipa)

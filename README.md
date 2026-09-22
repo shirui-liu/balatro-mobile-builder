@@ -1,6 +1,8 @@
 # Balatro Mobile Builder
 
-This is a rewrite of [balatro-mobile-maker](https://github.com/blake502/balatro-mobile-maker) that introduces multiple enhancements and fixes.
+Unofficial Balatro app-builder for Android and iOS. Based on [PGgamer2's balatro-mobile-builder](https://github.com/PGgamer2/balatro-mobile-builder), which is a fork of [blake502's original project](https://github.com/blake502/balatro-mobile-maker).
+
+This version adds Android 15/16 full-screen compatibility and documents 16 KB page-size support for Android native libraries.
 
 ### Significant changes:
  - Introduced automatic save syncing between devices.

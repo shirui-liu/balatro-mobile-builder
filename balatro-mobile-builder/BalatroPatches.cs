@@ -70,11 +70,47 @@ namespace BalatroMobileBuilder
                 // Patch the specified file
                 List<UnifiedPatch.Hunk> hunks = UnifiedPatch.parseText(patchFile);
                 (fileContent, bool[] results) = UnifiedPatch.apply(fileContent, hunks);
+                if (results.Contains(false) && patch.id == "highdpi") {
+                    (fileContent, bool applied) = applyHighDpiFallback(patchInfo.Value, fileContent);
+                    results = [applied];
+                }
                 File.WriteAllText(filePath, fileContent);
 
                 err |= results.Contains(false);
             }
             return err;
+        }
+
+        private static (string, bool) applyHighDpiFallback(string relativePath, string fileContent) {
+            if (relativePath == "conf.lua") {
+                if (Regex.IsMatch(fileContent, @"(?m)^\s*t\.window\.usedpiscale\s*="))
+                    return (fileContent, true);
+
+                Match end = Regex.Match(fileContent, @"(?m)^end\s*$", RegexOptions.RightToLeft);
+                if (!end.Success)
+                    return (fileContent, false);
+
+                string lineEnding = fileContent.Contains("\r\n") ? "\r\n" : "\n";
+                string insertion = $"\tt.window.usedpiscale = false{lineEnding}";
+                return (fileContent.Insert(end.Index, insertion), true);
+            }
+
+            if (relativePath == "functions/button_callbacks.lua") {
+                const string highDpiExpression = "highdpi = (love.system.getOS() == 'OS X' or love.system.getOS() == 'Android' or love.system.getOS() == 'iOS')";
+                Match highDpi = Regex.Match(fileContent, @"(?m)^(\s*)highdpi\s*=.*$");
+                if (highDpi.Success)
+                    return (fileContent.Remove(highDpi.Index, highDpi.Length).Insert(highDpi.Index, highDpi.Groups[1].Value + highDpiExpression), true);
+
+                Match display = Regex.Match(fileContent, @"(?m)^(\s*display\s*=.*)$");
+                if (!display.Success)
+                    return (fileContent, false);
+
+                string lineEnding = fileContent.Contains("\r\n") ? "\r\n" : "\n";
+                string insertion = display.Groups[1].Value + lineEnding + display.Groups[1].Value[..^display.Groups[1].Value.TrimStart().Length] + highDpiExpression;
+                return (fileContent.Remove(display.Index, display.Length).Insert(display.Index, insertion), true);
+            }
+
+            return (fileContent, false);
         }
 
         public static void setReleaseMode(bool value, BalatroZip balaZip) {

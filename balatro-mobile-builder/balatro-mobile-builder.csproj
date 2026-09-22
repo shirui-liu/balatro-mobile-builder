@@ -9,8 +9,8 @@
     <Platforms>AnyCPU;x64;ARM64</Platforms>
     <AssemblyVersion>0.9.4.0</AssemblyVersion>
     <PublishTrimmed>True</PublishTrimmed>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>sgKey.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly Condition="Exists('sgKey.snk')">True</SignAssembly>
+    <AssemblyOriginatorKeyFile Condition="Exists('sgKey.snk')">sgKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug' And $([MSBuild]::IsOSPlatform('Windows'))">

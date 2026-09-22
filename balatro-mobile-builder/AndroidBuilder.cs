@@ -30,7 +30,6 @@ namespace BalatroMobileBuilder
                 }));
             }
 
-            // Wait for every download to finish
             if (wait) Task.WaitAll(tasks.ToArray());
             return tasks;
         }
@@ -57,13 +56,10 @@ namespace BalatroMobileBuilder
             balaZip.compress($"{decodeDir}/assets/game.love");
 
             Console.WriteLine("Writing app manifest and icons...");
-            // Write AndroidManifest.xml
             using (StreamWriter writer = new StreamWriter($"{decodeDir}/AndroidManifest.xml", false)) {
                 writer.Write(getManifest(balaZip.getVersion()));
             }
-            // Override icons
             foreach (string iconType in new string[] { "drawable-mdpi", "drawable-hdpi", "drawable-xhdpi", "drawable-xxhdpi", "drawable-xxxhdpi" }) {
-                // Get icon from resources
                 object? resource = Resources.ResourceManager.GetObject(iconType, Resources.Culture);
                 ArgumentNullException.ThrowIfNull(resource);
                 File.Delete($"{decodeDir}/res/{iconType}/love.png");
@@ -77,7 +73,6 @@ namespace BalatroMobileBuilder
                 Environment.Exit(exitCode);
             }
 
-            // Cleanup
             Directory.Delete(decodeDir, true);
             return pathToApk;
         }
@@ -116,6 +111,7 @@ namespace BalatroMobileBuilder
         android:versionName=""{balatroVer}""
         android:installLocation=""auto""
         xmlns:android=""http://schemas.android.com/apk/res/android"">
+    <uses-sdk android:minSdkVersion=""16"" android:targetSdkVersion=""35"" />
     <uses-permission android:name=""android.permission.INTERNET"" />
     <uses-permission android:name=""android.permission.VIBRATE"" />
     <uses-permission android:name=""android.permission.BLUETOOTH"" />

@@ -56,6 +56,23 @@ namespace BalatroMobileBuilder
             balaZip.compress($"{decodeDir}/assets/game.love");
 
             Console.WriteLine("Writing app manifest and icons...");
+            Directory.CreateDirectory($"{decodeDir}/res/values");
+            File.WriteAllText($"{decodeDir}/res/values/balatro_styles.xml", @"<?xml version=""1.0"" encoding=""utf-8""?>
+<resources>
+    <style name=""BalatroTheme"" parent=""android:style/Theme.Material.NoActionBar.Fullscreen"">
+        <item name=""android:windowNoTitle"">true</item>
+        <item name=""android:windowFullscreen"">true</item>
+        <item name=""android:windowDrawsSystemBarBackgrounds"">true</item>
+        <item name=""android:statusBarColor"">@android:color/transparent</item>
+        <item name=""android:navigationBarColor"">@android:color/transparent</item>
+        <item name=""android:navigationBarDividerColor"">@android:color/transparent</item>
+        <item name=""android:enforceStatusBarContrast"">false</item>
+        <item name=""android:enforceNavigationBarContrast"">false</item>
+        <item name=""android:windowLightStatusBar"">false</item>
+        <item name=""android:windowLightNavigationBar"">false</item>
+        <item name=""android:windowLayoutInDisplayCutoutMode"">shortEdges</item>
+    </style>
+</resources>");
             using (StreamWriter writer = new StreamWriter($"{decodeDir}/AndroidManifest.xml", false)) {
                 writer.Write(getManifest(balaZip.getVersion()));
             }
@@ -145,7 +162,7 @@ namespace BalatroMobileBuilder
                 android:launchMode=""singleInstance""
                 android:screenOrientation=""landscape""
                 android:resizeableActivity=""true""
-                android:theme=""@android:style/Theme.NoTitleBar.Fullscreen"" >
+                android:theme=""@style/BalatroTheme"" >
             <intent-filter>
                 <action android:name=""android.intent.action.MAIN"" />
                 <category android:name=""android.intent.category.LAUNCHER"" />
